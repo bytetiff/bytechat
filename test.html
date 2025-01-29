@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h2>WebSocket Test</h2>
+    <input id="message" type="text" placeholder="Введите сообщение">
+    <button onclick="sendMessage()">Отправить</button>
+    <ul id="messages"></ul>
+
+    <script>
+        const socket = new WebSocket("ws://localhost:8080/ws");
+
+        socket.onopen = function() {
+            console.log("✅ WebSocket подключен");
+        };
+
+        socket.onmessage = function(event) {
+            let msg = document.createElement("li");
+            msg.textContent = "Получено: " + event.data;
+            document.getElementById("messages").appendChild(msg);
+        };
+
+        function sendMessage() {
+    let username = "Alice"; // Можно сделать ввод через <input>
+    let message = document.getElementById("message").value;
+
+    let jsonMessage = JSON.stringify({ username, message });
+    socket.send(jsonMessage);
+}
+
+    </script>
+</body>
+</html>

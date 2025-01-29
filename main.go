@@ -1,17 +1,20 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"github.com/bytetiff/bytechat/internal/chat"
+	"github.com/bytetiff/bytechat/internal/handlers"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, `{"message": "pong"}`)
-	})
+	r := gin.Default()
 
-	fmt.Println("Server is running on http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
+	// ✅ Создаём Hub для управления WebSocket-клиентами
+	hub := chat.NewHub()
+	go hub.Run()
+
+	// ✅ Регистрируем WebSocket-маршрут
+	r.GET("/ws", handlers.ServeWs(hub))
+
+	r.Run(":8080")
 }
