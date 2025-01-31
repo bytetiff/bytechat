@@ -1,0 +1,19 @@
+# Go
+bin/
+pkg/
+*.exe
+*.test
+*.out
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# .env file with secrets
+.env
