@@ -13,7 +13,6 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-// ParseJWT - проверяет и извлекает данные из JWT
 func ParseJWT(tokenString string, jwtKey []byte) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
